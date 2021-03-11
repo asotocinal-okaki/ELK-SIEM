@@ -1,0 +1,13 @@
+# create certs with initial
+version: '3'
+
+services:
+  create_certs:
+    container_name: create_certs
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    volumes:
+      - "./init-elastic.sh:/usr/local/bin/init-elastic.sh"
+      - ".:/usr/share/elasticsearch/config/certificates"
+    user: ${UID:-1000}
+    working_dir: /usr/share/elasticsearch
+    command: /usr/local/bin/init-elastic.sh
