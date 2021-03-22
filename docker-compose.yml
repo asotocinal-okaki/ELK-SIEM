@@ -18,6 +18,8 @@ services:
       - "./certs:$CERTS_DIR"
       - "./entrypoint.sh:/usr/share/elasticsearch/entrypoint.sh"
       - "./builtins.txt:/usr/share/elasticsearch/builtins.txt"
+    ports:
+      - 9200:9200
     networks:
       - elastic
   es02:

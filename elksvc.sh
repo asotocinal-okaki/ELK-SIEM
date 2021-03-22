@@ -28,10 +28,13 @@ docker-compose exec -w '/usr/share/elasticsearch' es01 bin/elasticsearch-setup-p
 # Extract kibana frontend pass
 export KIBANA_PASS=$(echo -n $(docker-compose exec -w '/usr/share/elasticsearch' es01 grep -o '^PASSWORD kibana = .*$' builtins.txt | cut -d ' ' -f 4 ))
 
+
+export ELASTIC_PASS=$(echo -n $(docker-compose exec -w '/usr/share/elasticsearch' es01 grep -o '^PASSWORD elastic = .*$' builtins.txt | cut -d ' ' -f 4 ))
 # set password on kibana.yml
 sed -i "s/\(elasticsearch.password: \).*$/\1${KIBANA_PASS}/" kibana.yml
 
-echo ${KIBANA_PASS}
+echo "Auto-generated password for user 'elastic': ${ELASTIC_PASS}"
+echo '\n\n'
 echo 'Bringing up kib01'
 # bring up kibana
 docker-compose up -d kib01
